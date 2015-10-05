@@ -18,6 +18,9 @@ public class client_control : MonoBehaviour
 	System.Timers.Timer cam1_timer;
     send_texture sendtexture;
     public GameObject quad;
+	public GameObject Car;
+	public AnimationClip anim_clip;
+
     control_cmd cmd;
     bool first_client = false;
     public static int connected = 0;
@@ -133,6 +136,7 @@ public class client_control : MonoBehaviour
 		}
 		if (counter == 2)
 		{
+
 			sendtexture.send_camera (2);
 		}
 		if (counter == 3)
@@ -140,6 +144,11 @@ public class client_control : MonoBehaviour
 			sendtexture.send_camera (3);
 		}
 		if (counter == 4) {
+
+            write_send("gps," + quad.transform.position.x + "," + quad.transform.position.z + "," + quad.transform.position.y + "," +
+            quad.transform.eulerAngles.x + "," + quad.transform.eulerAngles.z + "," + quad.transform.eulerAngles.y);
+		
+            print(quad.transform.eulerAngles.x + " " + quad.transform.eulerAngles.y + " " + quad.transform.eulerAngles.z);
 			counter = 0;
 		}
 
@@ -158,6 +167,13 @@ public class client_control : MonoBehaviour
         sendtexture = (send_texture)GetComponent("send_texture");
 
 		a = new Del (call);
+
+		Animation anim = (Animation)Car.GetComponent ("Animation");
+		anim ["car"].speed = 1f;
+		anim.Play ();
+
+
+
     }
 
   
@@ -171,22 +187,40 @@ public class client_control : MonoBehaviour
             float x = float.Parse(command[1]);
             float y = float.Parse(command[2]);
             float z = float.Parse(command[3]);
-
+			float w = float.Parse(command[4]);
             cmd.cmd_x = x;
             cmd.cmd_y = y;
             cmd.cmd_z = z;
+			cmd.cmd_w = w;
         }
 
-        if (command[0] == "get_gps")
-        {
-            write_send("gps," + cmd.transform.position.x + "," + cmd.transform.position.z + "," + cmd.transform.position.y);
-        }
-
-		if (command[0] == "get_imu")
+		if ( command[0] == "play")
 		{
-	
-			write_send("imu," + cmd.transform.rotation.eulerAngles.x + "," + cmd.transform.rotation.eulerAngles.y + "," + cmd.transform.rotation.eulerAngles.z);
+			Animation anim = (Animation)Car.GetComponent ("Animation");
+			anim.Play ();
 		}
+
+		if ( command[0] == "stop")
+		{
+			Animation anim = (Animation)Car.GetComponent ("Animation");
+			anim.Stop();
+		}
+
+		if ( command[0] == "speed")
+		{
+			Animation anim = (Animation)Car.GetComponent ("Animation");
+			float x = float.Parse(command[1]);
+			anim["car"].speed = x;
+		}
+
+		if ( command[0] == "time")
+		{
+			Animation anim = (Animation)Car.GetComponent ("Animation");
+			float x = float.Parse(command[1]);
+			anim["car"].time = x;
+		}
+
+       
 
 
       
@@ -223,7 +257,7 @@ public class client_control : MonoBehaviour
             byte[] buffer = encoder.GetBytes(msg);
             clientStream.Write(buffer, 0, buffer.Length);
             clientStream.Flush();
-           // print("FLUSH main");
+             print("FLUSH pos");
             return true;
         }
         catch (System.Exception ex)

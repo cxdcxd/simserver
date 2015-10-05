@@ -22,6 +22,7 @@ add_message_files(
     users.msg
 pos.msg
 imu.msg
+pos2.msg
 )
 
 add_service_files(

@@ -48,13 +48,14 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <boost/algorithm/string.hpp>
-#include <athomerobot_msgs/pos.h>
+#include <athomerobot_msgs/pos2.h>
 #include <athomerobot_msgs/imu.h>
 #include <sstream>
 #include <stdio.h>
 #include <iostream>
 #include <vector>
 #include <string>
+#include <athomerobot_msgs/command.h>
 
 ros::Publisher chatter_pub[20];
 
@@ -137,7 +138,7 @@ void process_cam1(string input)
             //=================================
             //base 64 to byte[]
             std::vector<BYTE> data_byte = base64_decode(data);
-            cout<<"GET SIZE :" << data_byte.size() << endl;
+            //cout<<"GET SIZE :" << data_byte.size() << endl;
 
 
             cv::Mat data_mat(cv::imdecode(data_byte,1));
@@ -178,7 +179,7 @@ void process_cam2(string input)
             //=================================
             //base 64 to byte[]
             std::vector<BYTE> data_byte = base64_decode(data);
-            cout<<"GET SIZE :" << data_byte.size() << endl;
+            //cout<<"GET SIZE :" << data_byte.size() << endl;
 
 
             cv::Mat data_mat(cv::imdecode(data_byte,1));
@@ -219,7 +220,7 @@ void process_cam3(string input)
             //=================================
             //base 64 to byte[]
             std::vector<BYTE> data_byte = base64_decode(data);
-            cout<<"GET SIZE :" << data_byte.size() << endl;
+            //cout<<"GET SIZE :" << data_byte.size() << endl;
 
 
             cv::Mat data_mat(cv::imdecode(data_byte,1));
@@ -245,54 +246,34 @@ void process_cam3(string input)
 
 void process_commandx(string input)
 {
-    if ( mutex  ) return;
-    mutex = true;
-
+    
     vector<string> strs2;
     boost::split(strs2,input,boost::is_any_of(","));
 
     if ( strs2.size() > 1)
     {
-        //         if ( strs2.at(0) == "CAM1" ||  strs2.at(0) == "CAM2" ||  strs2.at(0) == "CAM3" )
-        //         {
-        //             string data = strs2.at(1);
-        //             //cout<<"GET CAM :" <<data<<endl;
-        //             //=================================
-        //             //base 64 to byte[]
-        //             std::vector<BYTE> data_byte = base64_decode(data);
-        //             cout<<"GET SIZE :" << data_byte.size() << endl;
-
-
-        //             cv::Mat data_mat(cv::imdecode(data_byte,1));
-        //             cv_bridge::CvImage out_msg;
-        //             out_msg.encoding = sensor_msgs::image_encodings::BGR8;
-        //             out_msg.image = data_mat;
-        //             if ( strs2.at(0) == "CAM1" )
-        //             chatter_pub[3].publish(out_msg);
-        //             if ( strs2.at(0) == "CAM2" )
-        //             chatter_pub[4].publish(out_msg);
-        //             if ( strs2.at(0) == "CAM3" )
-        //             chatter_pub[5].publish(out_msg);
-
-
-        //             //=================================
-
-        //         }
 
         if ( strs2.at(0) == "gps")
         {
             cout<<"GET GPS"<<endl;
-            athomerobot_msgs::pos pos_msg;
+            athomerobot_msgs::pos2 pos_msg;
             string xx = strs2.at(1);
             string yy = strs2.at(2);
+            string zz = strs2.at(3);
+            string xxx = strs2.at(4);
+            string yyy = strs2.at(5);
+            string zzz = strs2.at(6);
+
             pos_msg.x = atof(xx.c_str());
             pos_msg.y = atof(yy.c_str());
+            pos_msg.z = atof(zz.c_str());
+            pos_msg.mx = atof(xxx.c_str());
+            pos_msg.my = atof(yyy.c_str());
+            pos_msg.mz = atof(zzz.c_str());
             chatter_pub[0].publish(pos_msg);
         }
     }
 
-
-    mutex = false;
 }
 
 void tcpsendX(string message)
@@ -350,6 +331,8 @@ int tcpserver_mainX()
                                 else
                                 {
                                     string temp = valid_data;
+
+                                    //cout<<"GET :"<<temp<<endl;
                                     process_commandx(temp);
                                     valid_data = "";
                                     header = 0;
@@ -540,6 +523,64 @@ int tcpserver_main_cam3()
 
 }
 
+int tcpserver_main_posimu()
+{
+    TCPStream* stream = NULL;
+    TCPAcceptor* acceptor = NULL;
+    cout<<"SIM SERVER CAM3 SERVER STARTED DONE"<<endl;
+    //listener
+    acceptor = new TCPAcceptor(4012);
+
+    if (acceptor->start() == 0) {
+
+        while (1) {
+            stream = acceptor->accept();
+
+            if (stream != NULL) {
+                ssize_t len;
+                char line[100];
+
+                cout<<"Unity Sim c3 Connected"<<endl;
+                tcp_can = true;
+                int header = 0;
+                string valid_data = "";
+
+                //read
+                while ((len = stream->receive(line, sizeof(line))) > 0) {
+                    line[len] = 0;
+
+
+                    // %data$
+                    for ( int i = 0 ; i < len ; i++)
+                    {
+                        if ( line[i] == '%' && header == 0)
+                        {
+                            header++;
+                        }
+                        else
+                            if ( header == 1)
+                            {
+                                if ( line[i] != '$')
+                                    valid_data += line[i];
+                                else
+                                {
+                                    string temp = valid_data;
+                                    process_cam3(temp);
+                                    valid_data = "";
+                                    header = 0;
+                                }
+                            }
+                    }
+                }
+                tcp_can = false;
+                delete stream;
+                cout<<"Unity Sim c3 Disconnected"<<endl;
+            }
+        }
+    }
+
+}
+
 float convert_mps_vy(float mps) {
     return mps * (ratio_Y*100);
 }
@@ -556,6 +597,7 @@ void chatterCallback_cmd_vel(const geometry_msgs::Twist &twist_aux)
 {
     double vel_x = twist_aux.linear.x;
     double vel_y =  twist_aux.linear.y;
+    double vel_z =  twist_aux.linear.z;
     double vel_th =  twist_aux.angular.z;
 
     int xx = 0;
@@ -567,7 +609,7 @@ void chatterCallback_cmd_vel(const geometry_msgs::Twist &twist_aux)
     //ww = (int)convert_radps_w(vel_th);
 
     std::stringstream ss;
-    ss << vel_x  << "," << vel_y << "," << vel_th;
+    ss << vel_x  << "," << vel_y << "," << vel_z << "," << vel_th;
     string out = "set_control," + ss.str();
     //===================================================
     tcpsendX(out);
@@ -579,14 +621,22 @@ void get_loop()
     {
         if ( tcp_can )
         {
-            tcpsendX("get_pos");
-            boost::this_thread::sleep(boost::posix_time::milliseconds(10));
-            tcpsendX("get_imu");
-            boost::this_thread::sleep(boost::posix_time::milliseconds(10));
+            //tcpsendX("get_gps");
+            //boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+
+            //tcpsendX("get_imu");
+            //boost::this_thread::sleep(boost::posix_time::milliseconds(20));
         }
 
         boost::this_thread::sleep(boost::posix_time::milliseconds(50));
     }
+}
+
+bool anim(athomerobot_msgs::command::Request  &req, athomerobot_msgs::command::Response &res)
+{
+  string a = req.command;
+  tcpsendX(a);
+  return true;
 }
 
 int main (int argc, char** argv)
@@ -603,7 +653,7 @@ int main (int argc, char** argv)
     //=======================================
 
     //advertise
-    chatter_pub[0] = node_handles[0].advertise<athomerobot_msgs::pos>("simserver/uav1/pos", 10);
+    chatter_pub[0] = node_handles[0].advertise<athomerobot_msgs::pos2>("simserver/uav1/pos", 10);
     chatter_pub[1] = node_handles[1].advertise<std_msgs::Float64>("simserver/uav1/ultrasound", 10);
     chatter_pub[2] = node_handles[2].advertise<athomerobot_msgs::imu>("simserver/uav1/imu", 10);
     chatter_pub[3] = node_handles[3].advertise<sensor_msgs::Image>("simserver/uav1/cam1", 10);
@@ -618,6 +668,9 @@ int main (int argc, char** argv)
     boost::thread _thread_logic3(&tcpserver_main_cam3);
     boost::thread _thread_logic22(&tcpserver_mainX);
     boost::thread _thread_logic33(&get_loop);
+
+    ros::NodeHandle n;
+    ros::ServiceServer service = n.advertiseService("anim_service", anim);
 
     while (ros::ok())
     {

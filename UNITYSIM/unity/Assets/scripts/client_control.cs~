@@ -1,0 +1,430 @@
+using UnityEngine;
+using System.Collections;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+using System.IO;
+
+
+public class client_control : MonoBehaviour 
+{
+	public delegate void Del();
+	public Del a;
+
+	System.Timers.Timer cam1_timer;
+    send_texture sendtexture;
+    public GameObject quad;
+    control_cmd cmd;
+    bool first_client = false;
+    public static int connected = 0;
+
+    public GUISkin englishskin;
+    private string lastMessage;
+    private bool isActive = false;
+  
+  
+    bool reader_active = true;
+    bool client_active = true;
+    string log = "LGS\n";
+    int line = 0;
+    bool delayy = false;
+
+    public string name2 = "CAR";
+    public static TcpClient client;
+	public static TcpClient client_cam1;
+	public static TcpClient client_cam2;
+	public static TcpClient client_cam3;
+
+    string input_name = "";
+    public  static string input_ip = "127.0.0.1";
+    
+	void call()
+	{
+
+	}
+
+    void OnApplicationQuit()
+    {
+            //QUITING THE APPLICATION   
+            client_active = false;
+            client_control.connected = 0;
+            if (client != null)
+            {
+                client.Close();
+                client = null;
+			    client_cam1 = null;
+			    client_cam2 = null;
+			    client_cam3 = null;
+            }
+    }
+
+    IEnumerator login_wait()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        if (name.Length < 10)
+        {
+            print("LOGIN SENDING DONE");
+            write_send("LOGIN|" + name);
+        }
+        else
+        {
+            print("USER NAME IS LONG MAX IS 10 CHAR");
+        }
+    }
+
+    bool in_login = false;
+    
+    public void manual_disconnect()
+    {
+        client_active = false;
+        client_control.connected = 0;
+        client.Close();
+        client = null;
+		client_cam1 = null;
+		client_cam2 = null;
+		client_cam3 = null;
+        print("Disconnected...");
+    }
+
+   
+    void OnGUI()
+    {
+        GUI.matrix = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3((float)Screen.width / 1280, (float)Screen.height /800, 1));
+        GUI.skin = englishskin;
+        GUI.depth = 10;
+
+       
+        if (connected == 0)
+        {
+            
+
+            if (client == null)
+            {
+                input_ip = GUI.TextField(new Rect(165, 100, 150, 50), input_ip);
+            }
+
+                if (input_ip != null && input_ip != "" && input_name != null && input_name != "")
+                {
+  
+                 if (client == null && GUI.Button(new Rect(165, 150, 150, 50), "Connect"))
+                 {
+                    button_connect();
+                 }
+
+                }
+            
+        }
+         
+
+    }
+
+	int counter = 0;
+	void Update()
+	{
+		counter++;
+		if (counter == 1)
+		{
+			sendtexture.send_camera (1);
+		}
+		if (counter == 2)
+		{
+			sendtexture.send_camera (2);
+		}
+		if (counter == 3)
+		{
+			sendtexture.send_camera (3);
+		}
+		if (counter == 4) {
+                        
+ 
+            write_send("gps," + cmd.transform.position.x + "," + cmd.transform.position.z + "," + cmd.transform.position.y + "," +
+            cmd.transform.rotation.eulerAngles.x + "," + cmd.transform.rotation.eulerAngles.z + "," + cmd.transform.rotation.eulerAngles.y);
+		
+
+			counter = 0;
+		}
+
+	}
+  
+	void Start () 
+    {
+        input_ip = "127.0.0.1";
+        input_name = "car";
+
+        statics.read_object_list = new ArrayList();
+        statics.read_object_byte_list = new ArrayList();
+        StartCoroutine(fast_update());
+
+        cmd = (control_cmd)quad.GetComponent("control_cmd");
+        sendtexture = (send_texture)GetComponent("send_texture");
+
+		a = new Del (call);
+    }
+
+  
+    void read_recive(string msg)
+    {
+        print("TCP GET : " + msg);
+
+        string[] command = msg.Split(',');
+        if ( command[0] == "set_control")
+        {
+            float x = float.Parse(command[1]);
+            float y = float.Parse(command[2]);
+            float z = float.Parse(command[3]);
+			float w = float.Parse(command[4]);
+            cmd.cmd_x = x;
+            cmd.cmd_y = y;
+            cmd.cmd_z = z;
+			cmd.cmd_w = w;
+        }
+
+       
+
+
+      
+    }
+
+    public bool write_byte(byte[] buffer)
+    {
+        if (client == null) return false;
+        try
+        {
+
+            NetworkStream clientStream = client.GetStream();
+            clientStream.Write(buffer, 0, buffer.Length);
+            clientStream.Flush();
+            //print("FLUSH");
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+
+            return false;
+        }
+    }
+    
+    public bool write_send(string msg)
+    {
+        msg = "%" + msg + "$";
+        if (client == null) return false ;
+        if (client_control.connected == 0) return false;
+        try
+        {
+            NetworkStream clientStream = client.GetStream();
+            ASCIIEncoding encoder = new ASCIIEncoding();
+            byte[] buffer = encoder.GetBytes(msg);
+            clientStream.Write(buffer, 0, buffer.Length);
+            clientStream.Flush();
+           // print("FLUSH main");
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+          
+            return false;
+        }
+       
+    }
+
+	public bool write_send_cam1(string msg)
+	{
+		msg = "%" + msg + "$";
+		if (client_cam1 == null) return false ;
+		if (client_control.connected == 0) return false;
+		try
+		{
+			NetworkStream clientStream = client_cam1.GetStream();
+			ASCIIEncoding encoder = new ASCIIEncoding();
+			byte[] buffer = encoder.GetBytes(msg);
+			clientStream.Write(buffer, 0, buffer.Length);
+			clientStream.Flush();
+			//print("FLUSH cam1");
+			return true;
+		}
+		catch (System.Exception ex)
+		{
+			
+			return false;
+		}
+		
+	}
+
+	public bool write_send_cam2(string msg)
+	{
+		msg = "%" + msg + "$";
+		if (client_cam2 == null) return false ;
+		if (client_control.connected == 0) return false;
+		try
+		{
+			NetworkStream clientStream = client_cam2.GetStream();
+			ASCIIEncoding encoder = new ASCIIEncoding();
+			byte[] buffer = encoder.GetBytes(msg);
+			clientStream.Write(buffer, 0, buffer.Length);
+			clientStream.Flush();
+			//print("FLUSH cam2");
+			return true;
+		}
+		catch (System.Exception ex)
+		{
+			
+			return false;
+		}
+		
+	}
+
+	public bool write_send_cam3(string msg)
+	{
+		msg = "%" + msg + "$";
+		if (client_cam3 == null) return false ;
+		if (client_control.connected == 0) return false;
+		try
+		{
+			NetworkStream clientStream = client_cam3.GetStream();
+			ASCIIEncoding encoder = new ASCIIEncoding();
+			byte[] buffer = encoder.GetBytes(msg);
+			clientStream.Write(buffer, 0, buffer.Length);
+			clientStream.Flush();
+		//	print("FLUSH cam3");
+			return true;
+		}
+		catch (System.Exception ex)
+		{
+			
+			return false;
+		}
+		
+	}
+
+    void button_connect()
+    {
+            try
+            {
+
+               
+                client = new TcpClient();
+                client.NoDelay = true;
+
+			    client_cam1 = new TcpClient();
+		     	client_cam2 = new TcpClient();
+			    client_cam3 = new TcpClient();
+
+                IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(input_ip), int.Parse("4001"));
+                client.Connect(serverEndPoint);
+     			IPEndPoint serverEndPoint2 = new IPEndPoint(IPAddress.Parse(input_ip), int.Parse("4010"));
+		    	client_cam1.Connect(serverEndPoint2);
+				IPEndPoint serverEndPoint3 = new IPEndPoint(IPAddress.Parse(input_ip), int.Parse("4011"));
+				client_cam2.Connect(serverEndPoint3);
+				IPEndPoint serverEndPoint4 = new IPEndPoint(IPAddress.Parse(input_ip), int.Parse("4012"));
+				client_cam3.Connect(serverEndPoint4);
+
+
+            
+
+                //START COMUNICATION THREAD FOR BLOCKING READ
+                //////////////////
+
+                Thread clientThread = new Thread(new ThreadStart(HandleClientComm));
+                clientThread.Start();
+                print("TCP CONNECTED DONE :)");
+                client_control.connected = 1;
+                client_active = true;
+  
+            }
+            catch (System.Exception ex)
+            {
+                client = null;
+                client_control.connected = 0;
+                client_active = false;
+                
+                print("SERVER IS NOT ACTIVE...");
+
+            }   
+
+    }
+	
+    public void HandleClientComm()
+    {  
+           
+            NetworkStream clientStream = client.GetStream();
+            //*#*byte[] message = new byte[1030];
+            byte[] message = new byte[1024];
+            int bytesRead;
+
+            while (true)
+            {
+
+                bytesRead = 0;
+
+                try
+                {
+                    //blocks until a server sends a message
+                    //BLOCKING READ
+                    bytesRead = clientStream.Read(message, 0, message.Length);
+
+                    //print((float)bytesRead / 1000);
+
+                }
+                catch (Exception e)
+                {
+                    //socket error has occured
+                    //print("ERROR : " + e.Message + " " + e.Data + " " + e.StackTrace);
+                    print(e.GetBaseException());
+                    break;
+                }
+
+                if (bytesRead == 0)
+                {
+                    //Client is disconnected from server
+                    //print("ERROR : READ = 0");
+                    break;
+                }
+
+                ASCIIEncoding encoder = new ASCIIEncoding();
+                string read_str = encoder.GetString(message, 0, bytesRead);
+
+                read_object ro = new read_object(read_str, bytesRead.ToString());
+                statics.read_object_list.Add(ro);
+
+
+            }
+
+            client_control.connected = 0;
+            client.Close();
+            client = null;
+
+            //ADD server message to static buffer
+            read_object ro2 = new read_object("Disconnected...", "0");
+            statics.read_object_list.Add(ro2);
+
+    }
+
+   
+    IEnumerator fast_update()
+    {
+        while (true)
+        {
+            if (statics.read_object_list != null && statics.read_object_list.Count != 0)
+            {
+
+                while (statics.read_object_list.Count != 0)
+                {
+                    read_object ro = (read_object)statics.read_object_list[0];
+                    read_recive(ro.message);
+                    statics.read_object_list.RemoveAt(0);
+
+                }
+            }
+
+            yield return new WaitForSeconds(0.001f);
+        }
+
+    }
+	
+}
+
