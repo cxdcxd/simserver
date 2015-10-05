@@ -1,0 +1,4 @@
+int32 personx
+int32 personz
+bool inroom
+
