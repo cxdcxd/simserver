@@ -643,7 +643,7 @@ int main (int argc, char** argv)
 {
     ros::init(argc, argv, "simserver");
     ros::Time::init();
-    cout<<"Sim server started done V 1.0.0"<<endl;
+    cout<<"Sim server started done V 2.0.0"<<endl;
 
     ros::Rate loop_rate(20);
 
@@ -653,9 +653,9 @@ int main (int argc, char** argv)
     //=======================================
 
     //advertise
-    chatter_pub[0] = node_handles[0].advertise<athomerobot_msgs::pos2>("simserver/uav1/pos", 10);
-    chatter_pub[1] = node_handles[1].advertise<std_msgs::Float64>("simserver/uav1/ultrasound", 10);
-    chatter_pub[2] = node_handles[2].advertise<athomerobot_msgs::imu>("simserver/uav1/imu", 10);
+    chatter_pub[0] = node_handles[0].advertise<athomerobot_msgs::pos2>("simserver/uav1/posimu", 10);
+    //chatter_pub[1] = node_handles[1].advertise<std_msgs::Float64>("simserver/uav1/ultrasound", 10);
+    //chatter_pub[2] = node_handles[2].advertise<athomerobot_msgs::imu>("simserver/uav1/imu", 10);
     chatter_pub[3] = node_handles[3].advertise<sensor_msgs::Image>("simserver/uav1/cam1", 10);
     chatter_pub[4] = node_handles[4].advertise<sensor_msgs::Image>("simserver/uav1/cam2", 10);
     chatter_pub[5] = node_handles[5].advertise<sensor_msgs::Image>("simserver/uav1/cam3", 10);

@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/client_control.cs">
     <Files>
+      <File FileName="Assets/scripts/client_control.cs" Line="102" Column="3" />
       <File FileName="Assets/scripts/control_cmd.cs" Line="35" Column="100" />
-      <File FileName="Assets/scripts/client_control.cs" Line="178" Column="18" />
+      <File FileName="Assets/scripts/control.cs" Line="16" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -69,6 +69,7 @@ public class client_control : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
+
         if (name.Length < 10)
         {
             print("LOGIN SENDING DONE");
@@ -79,6 +80,8 @@ public class client_control : MonoBehaviour
             print("USER NAME IS LONG MAX IS 10 CHAR");
         }
     }
+
+
 
     bool in_login = false;
     
@@ -93,42 +96,12 @@ public class client_control : MonoBehaviour
 		client_cam3 = null;
         print("Disconnected...");
     }
-
-   
-    void OnGUI()
-    {
-        GUI.matrix = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3((float)Screen.width / 1280, (float)Screen.height /800, 1));
-        GUI.skin = englishskin;
-        GUI.depth = 10;
-
-       
-        if (connected == 0)
-        {
-            
-
-            if (client == null)
-            {
-                input_ip = GUI.TextField(new Rect(165, 100, 150, 50), input_ip);
-            }
-
-                if (input_ip != null && input_ip != "" && input_name != null && input_name != "")
-                {
-  
-                 if (client == null && GUI.Button(new Rect(165, 150, 150, 50), "Connect"))
-                 {
-                    button_connect();
-                 }
-
-                }
-            
-        }
-         
-
-    }
-
+	
 	int counter = 0;
+	int counter_connect = 0;
 	void Update()
 	{
+
 		counter++;
 		if (counter == 1)
 		{
@@ -136,7 +109,6 @@ public class client_control : MonoBehaviour
 		}
 		if (counter == 2)
 		{
-
 			sendtexture.send_camera (2);
 		}
 		if (counter == 3)
@@ -147,9 +119,18 @@ public class client_control : MonoBehaviour
 
             write_send("gps," + quad.transform.position.x + "," + quad.transform.position.z + "," + quad.transform.position.y + "," +
             quad.transform.eulerAngles.x + "," + quad.transform.eulerAngles.z + "," + quad.transform.eulerAngles.y);
-		
-            print(quad.transform.eulerAngles.x + " " + quad.transform.eulerAngles.y + " " + quad.transform.eulerAngles.z);
+            //print(quad.transform.eulerAngles.x + " " + quad.transform.eulerAngles.y + " " + quad.transform.eulerAngles.z);
 			counter = 0;
+		}
+		counter_connect++;
+
+		if (counter_connect > 60) {
+			counter_connect = 0;
+			if (connected == 0) {
+				if (client == null) {
+					button_connect ();
+				}
+			}
 		}
 
 	}
@@ -175,6 +156,7 @@ public class client_control : MonoBehaviour
 
 
     }
+
 
   
     void read_recive(string msg)
@@ -213,11 +195,12 @@ public class client_control : MonoBehaviour
 			anim["car"].speed = x;
 		}
 
-		if ( command[0] == "time")
+		if ( command[0] == "goto")
 		{
 			Animation anim = (Animation)Car.GetComponent ("Animation");
 			float x = float.Parse(command[1]);
 			anim["car"].time = x;
+
 		}
 
        
@@ -257,7 +240,7 @@ public class client_control : MonoBehaviour
             byte[] buffer = encoder.GetBytes(msg);
             clientStream.Write(buffer, 0, buffer.Length);
             clientStream.Flush();
-             print("FLUSH pos");
+             //print("FLUSH pos");
             return true;
         }
         catch (System.Exception ex)
