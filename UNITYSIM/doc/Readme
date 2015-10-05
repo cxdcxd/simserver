@@ -1,0 +1,9 @@
+Amirkabir University of Technology
+Unity3d - ROS interface version 1
+
+installs 
+1) sudo apt-get install libxcursor1:i386
+2) sudo apt-get install libxrandr2:i386
+3) sudo apt-get install libxcursor
+4) sudo apt-get install libxrandr2
+5) sudo apt-get install mono-complete
