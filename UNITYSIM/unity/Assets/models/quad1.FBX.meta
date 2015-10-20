@@ -1,0 +1,309 @@
+fileFormatVersion: 2
+guid: 971d7276610214dc797b2e6744a2d416
+timeCreated: 1445336116
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Product2 - Arm-1
+    100002: Product2 - Arm_2-1
+    100004: Product2 - Arm_2-2
+    100006: Product2 - Base-1
+    100008: Product2 - Base-2
+    100010: Product2 - Battry-1
+    100012: Product2 - Camera-1
+    100014: Product2 - Down_Camera-1
+    100016: Product2 - ESC-1
+    100018: Product2 - ESC-2
+    100020: Product2 - gaurd-1
+    100022: Product2 - gaurd-1_MeshPart0
+    100024: Product2 - gaurd-1_MeshPart1
+    100026: Product2 - Gimball-1
+    100028: Product2 - Gimball-2
+    100030: Product2 - gripper-1
+    100032: Product2 - legs-1
+    100034: Product2 - motor base 2-1
+    100036: Product2 - Motor-1
+    100038: Product2 - Motor-2
+    100040: Product2 - Motor-3
+    100042: Product2 - Nvidia_Mainboard-1
+    100044: Product2 - Piwhawk-1
+    100046: Product2 - Propeller-1
+    100048: Product2 - Propeller-2
+    100050: Product2 - Sonar-1
+    100052: Product2 - Symmetry of Arm_2-1
+    100054: Product2 - Symmetry of Arm_2-2
+    100056: Product2 - Symmetry of Arm_2-3
+    100058: Product2 - Symmetry of Battry-1
+    100060: Product2 - Symmetry of Camera-1
+    100062: Product2 - Symmetry of ESC-1
+    100064: Product2 - Symmetry of ESC-2
+    100066: Product2 - Symmetry of ESC-3
+    100068: Product2 - Symmetry of legs-1
+    100070: Product2 - Symmetry of motor base 2-1
+    100072: Product2 - Symmetry of Motor Base-1
+    100074: Product2 - Symmetry of Motor Base-2
+    100076: Product2 - Symmetry of Motor-1
+    100078: Product2 - Symmetry of Motor-2
+    100080: Product2 - Symmetry of Propeller-1
+    100082: Product2 - Symmetry of Propeller-2
+    100084: Product2 - Symmetry of Propeller-3
+    100086: Product2 - Symmetry of Symmetry of ESC-1
+    100088: Product2 - Symmetry of Symmetry of Motor Base-1
+    100090: Product2 - Symmetry of Symmetry of Motor-1
+    100092: Product2 - Symmetry of Symmetry of Propeller-1
+    100094: Product2 - Transmitter-1
+    100096: //RootNode
+    400000: Product2 - Arm-1
+    400002: Product2 - Arm_2-1
+    400004: Product2 - Arm_2-2
+    400006: Product2 - Base-1
+    400008: Product2 - Base-2
+    400010: Product2 - Battry-1
+    400012: Product2 - Camera-1
+    400014: Product2 - Down_Camera-1
+    400016: Product2 - ESC-1
+    400018: Product2 - ESC-2
+    400020: Product2 - gaurd-1
+    400022: Product2 - gaurd-1_MeshPart0
+    400024: Product2 - gaurd-1_MeshPart1
+    400026: Product2 - Gimball-1
+    400028: Product2 - Gimball-2
+    400030: Product2 - gripper-1
+    400032: Product2 - legs-1
+    400034: Product2 - motor base 2-1
+    400036: Product2 - Motor-1
+    400038: Product2 - Motor-2
+    400040: Product2 - Motor-3
+    400042: Product2 - Nvidia_Mainboard-1
+    400044: Product2 - Piwhawk-1
+    400046: Product2 - Propeller-1
+    400048: Product2 - Propeller-2
+    400050: Product2 - Sonar-1
+    400052: Product2 - Symmetry of Arm_2-1
+    400054: Product2 - Symmetry of Arm_2-2
+    400056: Product2 - Symmetry of Arm_2-3
+    400058: Product2 - Symmetry of Battry-1
+    400060: Product2 - Symmetry of Camera-1
+    400062: Product2 - Symmetry of ESC-1
+    400064: Product2 - Symmetry of ESC-2
+    400066: Product2 - Symmetry of ESC-3
+    400068: Product2 - Symmetry of legs-1
+    400070: Product2 - Symmetry of motor base 2-1
+    400072: Product2 - Symmetry of Motor Base-1
+    400074: Product2 - Symmetry of Motor Base-2
+    400076: Product2 - Symmetry of Motor-1
+    400078: Product2 - Symmetry of Motor-2
+    400080: Product2 - Symmetry of Propeller-1
+    400082: Product2 - Symmetry of Propeller-2
+    400084: Product2 - Symmetry of Propeller-3
+    400086: Product2 - Symmetry of Symmetry of ESC-1
+    400088: Product2 - Symmetry of Symmetry of Motor Base-1
+    400090: Product2 - Symmetry of Symmetry of Motor-1
+    400092: Product2 - Symmetry of Symmetry of Propeller-1
+    400094: Product2 - Transmitter-1
+    400096: //RootNode
+    2300000: Product2 - Arm-1
+    2300002: Product2 - Arm_2-1
+    2300004: Product2 - Arm_2-2
+    2300006: Product2 - Base-1
+    2300008: Product2 - Base-2
+    2300010: Product2 - Battry-1
+    2300012: Product2 - Camera-1
+    2300014: Product2 - Down_Camera-1
+    2300016: Product2 - ESC-1
+    2300018: Product2 - ESC-2
+    2300020: Product2 - gaurd-1_MeshPart0
+    2300022: Product2 - gaurd-1_MeshPart1
+    2300024: Product2 - Gimball-1
+    2300026: Product2 - Gimball-2
+    2300028: Product2 - gripper-1
+    2300030: Product2 - legs-1
+    2300032: Product2 - motor base 2-1
+    2300034: Product2 - Motor-1
+    2300036: Product2 - Motor-2
+    2300038: Product2 - Motor-3
+    2300040: Product2 - Nvidia_Mainboard-1
+    2300042: Product2 - Piwhawk-1
+    2300044: Product2 - Propeller-1
+    2300046: Product2 - Propeller-2
+    2300048: Product2 - Sonar-1
+    2300050: Product2 - Symmetry of Arm_2-1
+    2300052: Product2 - Symmetry of Arm_2-2
+    2300054: Product2 - Symmetry of Arm_2-3
+    2300056: Product2 - Symmetry of Battry-1
+    2300058: Product2 - Symmetry of Camera-1
+    2300060: Product2 - Symmetry of ESC-1
+    2300062: Product2 - Symmetry of ESC-2
+    2300064: Product2 - Symmetry of ESC-3
+    2300066: Product2 - Symmetry of legs-1
+    2300068: Product2 - Symmetry of motor base 2-1
+    2300070: Product2 - Symmetry of Motor Base-1
+    2300072: Product2 - Symmetry of Motor Base-2
+    2300074: Product2 - Symmetry of Motor-1
+    2300076: Product2 - Symmetry of Motor-2
+    2300078: Product2 - Symmetry of Propeller-1
+    2300080: Product2 - Symmetry of Propeller-2
+    2300082: Product2 - Symmetry of Propeller-3
+    2300084: Product2 - Symmetry of Symmetry of ESC-1
+    2300086: Product2 - Symmetry of Symmetry of Motor Base-1
+    2300088: Product2 - Symmetry of Symmetry of Motor-1
+    2300090: Product2 - Symmetry of Symmetry of Propeller-1
+    2300092: Product2 - Transmitter-1
+    3300000: Product2 - Arm-1
+    3300002: Product2 - Arm_2-1
+    3300004: Product2 - Arm_2-2
+    3300006: Product2 - Base-1
+    3300008: Product2 - Base-2
+    3300010: Product2 - Battry-1
+    3300012: Product2 - Camera-1
+    3300014: Product2 - Down_Camera-1
+    3300016: Product2 - ESC-1
+    3300018: Product2 - ESC-2
+    3300020: Product2 - gaurd-1_MeshPart0
+    3300022: Product2 - gaurd-1_MeshPart1
+    3300024: Product2 - Gimball-1
+    3300026: Product2 - Gimball-2
+    3300028: Product2 - gripper-1
+    3300030: Product2 - legs-1
+    3300032: Product2 - motor base 2-1
+    3300034: Product2 - Motor-1
+    3300036: Product2 - Motor-2
+    3300038: Product2 - Motor-3
+    3300040: Product2 - Nvidia_Mainboard-1
+    3300042: Product2 - Piwhawk-1
+    3300044: Product2 - Propeller-1
+    3300046: Product2 - Propeller-2
+    3300048: Product2 - Sonar-1
+    3300050: Product2 - Symmetry of Arm_2-1
+    3300052: Product2 - Symmetry of Arm_2-2
+    3300054: Product2 - Symmetry of Arm_2-3
+    3300056: Product2 - Symmetry of Battry-1
+    3300058: Product2 - Symmetry of Camera-1
+    3300060: Product2 - Symmetry of ESC-1
+    3300062: Product2 - Symmetry of ESC-2
+    3300064: Product2 - Symmetry of ESC-3
+    3300066: Product2 - Symmetry of legs-1
+    3300068: Product2 - Symmetry of motor base 2-1
+    3300070: Product2 - Symmetry of Motor Base-1
+    3300072: Product2 - Symmetry of Motor Base-2
+    3300074: Product2 - Symmetry of Motor-1
+    3300076: Product2 - Symmetry of Motor-2
+    3300078: Product2 - Symmetry of Propeller-1
+    3300080: Product2 - Symmetry of Propeller-2
+    3300082: Product2 - Symmetry of Propeller-3
+    3300084: Product2 - Symmetry of Symmetry of ESC-1
+    3300086: Product2 - Symmetry of Symmetry of Motor Base-1
+    3300088: Product2 - Symmetry of Symmetry of Motor-1
+    3300090: Product2 - Symmetry of Symmetry of Propeller-1
+    3300092: Product2 - Transmitter-1
+    4300000: Product2 - Arm_2-1
+    4300002: Product2 - Arm_2-2
+    4300004: Product2 - Arm-1
+    4300006: Product2 - Base-1
+    4300008: Product2 - Base-2
+    4300010: Product2 - Battry-1
+    4300012: Product2 - Camera-1
+    4300014: Product2 - Down_Camera-1
+    4300016: Product2 - ESC-1
+    4300018: Product2 - ESC-2
+    4300020: Product2 - gaurd-1_MeshPart0
+    4300022: Product2 - gaurd-1_MeshPart1
+    4300024: Product2 - Gimball-1
+    4300026: Product2 - Gimball-2
+    4300028: Product2 - gripper-1
+    4300030: Product2 - legs-1
+    4300032: Product2 - motor base 2-1
+    4300034: Product2 - Motor-1
+    4300036: Product2 - Motor-2
+    4300038: Product2 - Motor-3
+    4300040: Product2 - Nvidia_Mainboard-1
+    4300042: Product2 - Piwhawk-1
+    4300044: Product2 - Propeller-1
+    4300046: Product2 - Propeller-2
+    4300048: Product2 - Sonar-1
+    4300050: Product2 - Symmetry of Arm_2-1
+    4300052: Product2 - Symmetry of Arm_2-2
+    4300054: Product2 - Symmetry of Arm_2-3
+    4300056: Product2 - Symmetry of Battry-1
+    4300058: Product2 - Symmetry of Camera-1
+    4300060: Product2 - Symmetry of ESC-1
+    4300062: Product2 - Symmetry of ESC-2
+    4300064: Product2 - Symmetry of ESC-3
+    4300066: Product2 - Symmetry of legs-1
+    4300068: Product2 - Transmitter-1
+    4300070: Product2 - Symmetry of Symmetry of Propeller-1
+    4300072: Product2 - Symmetry of Symmetry of Motor-1
+    4300074: Product2 - Symmetry of Symmetry of Motor Base-1
+    4300076: Product2 - Symmetry of Symmetry of ESC-1
+    4300078: Product2 - Symmetry of motor base 2-1
+    4300080: Product2 - Symmetry of Motor Base-1
+    4300082: Product2 - Symmetry of Motor Base-2
+    4300084: Product2 - Symmetry of Motor-1
+    4300086: Product2 - Symmetry of Motor-2
+    4300088: Product2 - Symmetry of Propeller-1
+    4300090: Product2 - Symmetry of Propeller-2
+    4300092: Product2 - Symmetry of Propeller-3
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
